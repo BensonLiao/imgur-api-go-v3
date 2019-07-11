@@ -3,6 +3,12 @@
 *.a
 *.so
 
+# Environment variables
+.env
+
+# Hidden files
+.DS_Store
+
 # Folders
 _obj
 _test
