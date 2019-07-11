@@ -1,0 +1,16 @@
+language: go
+go:
+  - "1.9.x"
+  - "1.10.x"
+  - "1.11.x"
+  - "1.12.x"
+  - tip
+sudo: false
+
+install:
+  - go get github.com/BensonLiao/imgur-api-go-v3/imgurclient
+
+script:
+  - go test -v -race ./...
+  - go vet $(go list ./... | grep -v /examples/)
+  - golint --set_exit_status ./...
