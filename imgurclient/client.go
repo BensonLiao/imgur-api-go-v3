@@ -97,19 +97,19 @@ func (cl *Client) Refresh() error {
 	return err
 }
 
-// prepareRequest func
-func (cl *Client) prepareRequest(method, uri string) (*http.Request, error) {
-	path := fmt.Sprintf("%s/%s", APIBase, uri)
-	fmt.Printf("req path: %s\n", path)
-	req, err := http.NewRequest(method, path, nil)
+// PrepareAuthRequest func, return a http request with Authorization header
+func (cl *Client) PrepareAuthRequest(method, url string) (*http.Request, error) {
+	fmt.Printf("req url: %s\n", url)
+	req, err := http.NewRequest(method, url, nil)
 	// fmt.Printf("client access token: %s\n", cl.AccessToken)
 	// req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", cl.AccessToken))
 	req.Header.Add("Authorization", fmt.Sprintf("Client-ID %s", cl.ClientID))
 	return req, err
 }
 
+// NewFileUploadRequest func,
 // Creates a new file upload http request with optional extra params
-func (cl *Client) newFileUploadRequest(
+func (cl *Client) NewFileUploadRequest(
 	uri string,
 	params map[string]string,
 	fileParam,
@@ -151,8 +151,9 @@ func (cl *Client) newFileUploadRequest(
 	return req, err
 }
 
+// NewImgContentUploadRequest func,
 // Creates a new image content upload http request with optional extra params
-func (cl *Client) newImgContentUploadRequest(
+func (cl *Client) NewImgContentUploadRequest(
 	uri string,
 	params map[string]string,
 	imgContent []byte,

@@ -34,7 +34,7 @@ func (cl *Client) GetAccount(username string) (AccountResponse, error) {
 		// "me" Only works when cl.ClientID is valid and imgur will search
 		// for cl.ClientID's registered account
 	}
-	request, _ := cl.prepareRequest("GET", AccountBase+"/"+username)
+	request, _ := cl.PrepareAuthRequest("GET", AccountBase+"/"+username)
 	response, err := cl.Do(request)
 	if err != nil {
 		fmt.Println(err)

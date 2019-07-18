@@ -12,7 +12,7 @@ const GalleryBase = APIBase + "/gallery"
 // GetSubredditGalleries func, send tag and return Gallery's subreddit
 func (cl *Client) GetSubredditGalleries(tag string) (DataListResponse, error) {
 	dlr := DataListResponse{}
-	request, _ := cl.prepareRequest("GET", GalleryBase+"/r/"+tag)
+	request, _ := cl.PrepareAuthRequest("GET", GalleryBase+"/r/"+tag)
 	response, err := cl.Do(request)
 	if err != nil {
 		fmt.Println(err)

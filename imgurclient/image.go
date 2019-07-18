@@ -2,8 +2,8 @@ package imgurclient
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
-	"net/http"
 	"strings"
 )
 
@@ -15,7 +15,7 @@ const ImageBase = APIBase + "/image"
 func (cl Client) AnonymousUpload(path string) (Response, error) {
 	var err error
 	ir := Response{}
-	req, err := cl.newFileUploadRequest(
+	req, err := cl.NewFileUploadRequest(
 		ImageBase,
 		nil,
 		"image",
@@ -42,7 +42,7 @@ func (cl Client) AnonymousUpload(path string) (Response, error) {
 func (cl Client) AnonymousUploadByImgMessage(content []byte) (Response, error) {
 	var err error
 	ir := Response{}
-	req, err := cl.newImgContentUploadRequest(
+	req, err := cl.NewImgContentUploadRequest(
 		ImageBase,
 		nil,
 		content,
@@ -68,12 +68,10 @@ func (cl Client) AnonymousUploadByImgMessage(content []byte) (Response, error) {
 func (cl Client) DeleteAnonymousUploadedImg(deleteHash string) (DeleteResponse, error) {
 	var err error
 	ir := DeleteResponse{}
-	req, err := http.NewRequest("DELETE", ImageBase+"/"+deleteHash, nil)
-	authHeader := []string{"Client-ID " + cl.ClientID}
-	req.Header.Add("Authorization", strings.Join(authHeader, " "))
-	response, err := cl.Do(req)
+	request, _ := cl.PrepareAuthRequest("DELETE", ImageBase+"/"+deleteHash)
+	response, err := cl.Do(request)
 	if err != nil {
-		return ir, err
+		fmt.Println(err)
 	}
 	defer response.Body.Close()
 	body, err := ioutil.ReadAll(response.Body)
